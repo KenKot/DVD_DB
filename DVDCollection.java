@@ -247,7 +247,11 @@ public class DVDCollection {
 	}
 
 	public void save() {
-
+		if (!this.modified) return;
+		
+		for (int i = 0; i < numdvds; ++i) {
+			
+		}
 	}
 
 	// Additional private helper methods go here:
