@@ -44,6 +44,28 @@ public class DVDCollection {
 
 		return mergedString;
 	}
+	
+	static private boolean isValidNumber(String input) {
+		if (input == null) return false;
+		if (input.length() <= 0) return false;
+		
+		for (char digit : input.toCharArray()) {
+			if (digit > '9' || digit < '0') return false;
+		}
+		
+		return true;
+		// possible counter example for above?: 0001
+		
+	}
+
+	static private boolean isValidRating(String input) {
+		if (input == null) return false;
+		if (input != "G") return false
+		if (input != "PG") return false
+		if (input != "PG-13") return false
+		if (input != "R") return false
+		return true;
+	}
 
 	public void addOrModifyDVD(String title, String rating, String runningTime) {
 		// NOTE: Be careful. Running time is a string here
@@ -53,10 +75,34 @@ public class DVDCollection {
 		
 		
 		// first check if rating and runningTime are valid
+		if (!isValidNumber(runningTime) {
+			System.out.println("Enter a valid run time");
+			return;
+		}
+		
+		if (!isValidRating(rating)) {
+			System.out.println("Enter a valid rating");
+			return;
+		}
+		
+		int runningTimeInteger = Integer.parseInt(runningTime);
+	
+		
+// Check it it already exists (we don't need to add another DVD)
+		
+		for (DVD curr : dvdArray) {
+			if (curr.getTitle() == title) {
+				curr.setRating(rating);
+				curr.setRunningTime(runningTimeInteger);
+				return;
+			}
+		}
+		
+		
 		
 
-
-		if (this.numdvds >= numdvds.length) {
+// DVD title doesn't exist yet, so we need to create a new one
+		if (this.numdvds >= dvdArray.length) {
 			DVD[] newDVDArray = new DVD[dvdArray.length * 2];
 			
 			// Copy old array into new/bigger array		
@@ -72,13 +118,13 @@ public class DVDCollection {
 			dvdArray = newDVDArray;
 		}
 
-		DVD newDVD = new DVD(title, rating, runningTime);
+		DVD newDVD = new DVD(title, rating, runningTimeInteger);
 		++numdvds;
 		
 //Version 1 - use CS301 shifts from end;
 		
 		if (numdvds == 0) {
-			dvdArray.push(newDVD);
+			dvdArray[0] = newDVD
 			return;
 		}
 		
@@ -99,7 +145,6 @@ public class DVDCollection {
 			}
 				
 		}
-		
 		
 		//  dvdArray[0] = newDVD; <-- adding this here, i could remove it from else case, and the length==0 part too?
 		
