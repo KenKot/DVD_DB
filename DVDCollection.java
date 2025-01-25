@@ -60,11 +60,11 @@ public class DVDCollection {
 
 	static private boolean isValidRating(String input) {
 		if (input == null) return false;
-		if (input != "G") return false;
-		if (input != "PG") return false;
-		if (input != "PG-13") return false;
-		if (input != "R") return false;
-		return true;
+		if (input.equals("G")) return true;
+		if (input.equals("PG")) return true;
+		if (input.equals("PG-13")) return true;
+		if (input.equals("R")) return true;
+		return false;
 	}
 
 	public void addOrModifyDVD(String title, String rating, String runningTime) {
@@ -89,9 +89,8 @@ public class DVDCollection {
 	
 		
 // Check it it already exists (we don't need to add another DVD)
-		
-//		for (DVD curr : dvdArray) {
 		for (int i = 0; i < numdvds; ++i) {
+			System.out.println("1 ran");
 			DVD curr = dvdArray[i];
 			if (title.equals(curr.getTitle())) {
 				curr.setRating(rating);
@@ -101,10 +100,12 @@ public class DVDCollection {
 		}
 		
 		
-		
 
 // DVD title doesn't exist yet, so we need to create a new one
 		if (this.numdvds >= dvdArray.length) {
+
+			System.out.println("2 ran");
+			
 			DVD[] newDVDArray = new DVD[dvdArray.length * 2];
 			
 			// Copy old array into new/bigger array		
@@ -121,19 +122,27 @@ public class DVDCollection {
 		}
 
 		DVD newDVD = new DVD(title, rating, runningTimeInteger);
-		++numdvds;
+//		++numdvds;
+		
+		System.out.println("THIS RAN!");
 		
 //Version 1 - use CS301 shifts from end;
 		
+		System.out.println("numdvds is: " + numdvds);
+		
 		if (numdvds == 0) {
+			System.out.println("3 ran");
 			dvdArray[0] = newDVD;
+			++numdvds;
 			return;
 		}
 		
-		for (int i = numdvds; i >= 0; --i) {
+		for (int i = numdvds - 1; i >= 0; --i) {
+			System.out.println("4 ran");
 			//first array element's title >= than new title, we insert
 			if (title.compareTo(dvdArray[i].getTitle()) >= 0) { // Asks: Does 'title' come after alphabetically?
 				dvdArray[i+1] = newDVD;
+				++numdvds;
 				return;
 			}
 			else {
@@ -142,11 +151,15 @@ public class DVDCollection {
 				//edge case if we make it to the beginning
 				if (i == 0) {
 					dvdArray[0] = newDVD;
+					++numdvds;
 					return;
 				}
 			}
 				
 		}
+		
+		
+//		++numdvds;
 		
 		//  dvdArray[0] = newDVD; <-- adding this here, i could remove it from else case, and the length==0 part too?
 		
@@ -234,26 +247,26 @@ public class DVDCollection {
 	}
 	
 	public String getDVDsByRating(String rating) {
+		String mergedString = "";
+		
+		for (int i = 0; i < numdvds; ++i) {
+			if ( rating.equals(dvdArray[i]) ) {
+				mergedString += dvdArray[i].toString();
+			}
+		}
 
-
-
-
-
-
-		return null;	// STUB: Remove this line.
+		return mergedString;
 
 	}
 
 	public int getTotalRunningTime() {
-
-
-
-
-
-
-
-		return 0;	// STUB: Remove this line.
-
+		int totalRunningTime = 0;
+		
+		for (int i = 0; i < numdvds; ++i) {
+			totalRunningTime += dvdArray[i].getRunningTime();
+		}
+		
+		return totalRunningTime;
 	}
 
 	
