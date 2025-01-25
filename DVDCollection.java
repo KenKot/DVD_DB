@@ -60,10 +60,10 @@ public class DVDCollection {
 
 	static private boolean isValidRating(String input) {
 		if (input == null) return false;
-		if (input != "G") return false
-		if (input != "PG") return false
-		if (input != "PG-13") return false
-		if (input != "R") return false
+		if (input != "G") return false;
+		if (input != "PG") return false;
+		if (input != "PG-13") return false;
+		if (input != "R") return false;
 		return true;
 	}
 
@@ -75,7 +75,7 @@ public class DVDCollection {
 		
 		
 		// first check if rating and runningTime are valid
-		if (!isValidNumber(runningTime) {
+		if (!isValidNumber(runningTime)) {
 			System.out.println("Enter a valid run time");
 			return;
 		}
@@ -90,8 +90,10 @@ public class DVDCollection {
 		
 // Check it it already exists (we don't need to add another DVD)
 		
-		for (DVD curr : dvdArray) {
-			if (curr.getTitle() == title) {
+//		for (DVD curr : dvdArray) {
+		for (int i = 0; i < numdvds; ++i) {
+			DVD curr = dvdArray[i];
+			if (title.equals(curr.getTitle())) {
 				curr.setRating(rating);
 				curr.setRunningTime(runningTimeInteger);
 				return;
@@ -124,7 +126,7 @@ public class DVDCollection {
 //Version 1 - use CS301 shifts from end;
 		
 		if (numdvds == 0) {
-			dvdArray[0] = newDVD
+			dvdArray[0] = newDVD;
 			return;
 		}
 		
@@ -201,14 +203,34 @@ public class DVDCollection {
 	}
 	
 	public void removeDVD(String title) {
+		boolean shiftElements = false;
+		int dvdCount = numdvds;
 		
-
-
-
-
-
-
-
+		if (dvdCount == 0) return;
+		
+		if (dvdCount == 1) {
+			if ( title.equals(dvdArray[0].getTitle()) ) {
+				dvdArray[0] = null;
+				--numdvds;
+				return;
+			}
+		}
+		
+		for (int i = 0; i < dvdCount - 1; ++i) {
+			if ( title.equals(dvdArray[i].getTitle()) ) {  
+				shiftElements = true;
+				--numdvds;
+			}
+			
+			if (shiftElements) {
+				dvdArray[i] = dvdArray[i+1];
+			}
+		}
+		
+		
+		if (shiftElements || (title.equals(dvdArray[dvdCount - 1].getTitle())) ) {
+			dvdArray[dvdCount - 1] = null;			
+		}
 	}
 	
 	public String getDVDsByRating(String rating) {
