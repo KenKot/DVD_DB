@@ -1,0 +1,14 @@
+# IDE-specific files (Eclipse)
+.classpath
+.project
+.settings/
+
+# Compiled class files
+*.class
+
+# Runtime data files
+*.log
+dvddata.txt
+
+# Git metadata
+.git/
