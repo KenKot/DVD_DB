@@ -8,7 +8,6 @@
 
 # Runtime data files
 *.log
-dvddata.txt
 
 # Git metadata
 .git/
