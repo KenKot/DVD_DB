@@ -1,0 +1,3 @@
+numdvds = 1
+dvdArray.length = 7
+dvdArray[0] = TITL/G/22min

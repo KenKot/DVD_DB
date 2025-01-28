@@ -249,9 +249,22 @@ public class DVDCollection {
 	public void save() {
 		if (!this.modified) return;
 		
-		for (int i = 0; i < numdvds; ++i) {
-			
+		File file = new File(this.sourceName);
+		
+		try {
+			if (file.createNewFile()) {
+				FileWriter myWriter = new FileWriter(this.sourceName);
+				myWriter.write(toString());
+				myWriter.close();
+				this.modified = false;
+//				for (int i = 0; i < numdvds; ++i) {
+//					myWriter.write(dvdArray[i].getS);
+//				}
+			}
+		} catch(IOException e) {
+			e.printStackTrace();
 		}
+		
 	}
 
 	// Additional private helper methods go here:
