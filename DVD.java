@@ -45,7 +45,8 @@ public class DVD {
 //							   "rating = " + this.rating + "\n" +
 //					           "runningTime = " + this.runningTime + "\n";
 		
-		String mergedString = this.title + "/" + this.rating + "/" + this.runningTime + "min\n";
+//		String mergedString = this.title + "/" + this.rating + "/" + this.runningTime + "min\n";
+		String mergedString = this.title + "," + this.rating + "," + this.runningTime;
 		
 
 		return mergedString;

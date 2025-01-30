@@ -34,11 +34,14 @@ public class DVDCollection {
 		// order they are stored in the array along with
 		// the values for numdvds and the length of the array.
 		// See homework instructions for proper format.
+		
+		// What DVD.toString() returns: this.title + "," + this.rating + "," + this.runningTime;
 
-		String mergedString = "numdvds = " + this.numdvds + "\n" + "dvdArray.length = " + this.dvdArray.length + "\n";
+
+		String mergedString = "numdvds = " + this.numdvds + "\n" + "dvdArray.length = " + this.dvdArray.length;
 
 		for (int i = 0; i < this.numdvds; ++i) {
-			mergedString += "dvdArray[" + i + "] = " + dvdArray[i].toString();
+			mergedString += "dvdArray[" + i + "] = " + dvdArray[i].toString() + "min";
 		}
 
 		return mergedString;

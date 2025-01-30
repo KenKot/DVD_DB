@@ -11,3 +11,6 @@
 
 # Git metadata
 .git/
+
+*.txt
+!dvddata.txt
