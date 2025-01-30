@@ -34,11 +34,11 @@ public class DVDCollection {
 		// order they are stored in the array along with
 		// the values for numdvds and the length of the array.
 		// See homework instructions for proper format.
-		
-		// What DVD.toString() returns: this.title + "," + this.rating + "," + this.runningTime;
 
+		// What DVD.toString() returns: this.title + "," + this.rating + "," +
+		// this.runningTime;
 
-		String mergedString = "numdvds = " + this.numdvds + "\n" + "dvdArray.length = " + this.dvdArray.length;
+		String mergedString = "numdvds = " + this.numdvds + "\n" + "dvdArray.length = " + this.dvdArray.length + "\n";
 
 		for (int i = 0; i < this.numdvds; ++i) {
 			mergedString += "dvdArray[" + i + "] = " + dvdArray[i].toString() + "min";
@@ -70,12 +70,11 @@ public class DVDCollection {
 		}
 
 		int runningTimeInteger = Integer.parseInt(runningTime);
-		
+
 		this.modified = true;
 
-// Check it it already exists (we don't need to add another DVD)
+		// Check it it already exists (we don't need to add another DVD)
 		for (int i = 0; i < numdvds; ++i) {
-			System.out.println("1 ran");
 			DVD curr = dvdArray[i];
 			if (title.equals(curr.getTitle())) {
 				curr.setRating(rating);
@@ -84,11 +83,9 @@ public class DVDCollection {
 			}
 		}
 
-// DVD title doesn't exist yet, so we need to create a new one
+		// DVD title doesn't exist yet, so we need to create a new one
+		// Check if array needs to grow
 		if (this.numdvds >= dvdArray.length) {
-
-			System.out.println("2 ran");
-
 			DVD[] newDVDArray = new DVD[dvdArray.length * 2];
 
 			// Copy old array into new/bigger array
@@ -106,23 +103,14 @@ public class DVDCollection {
 		}
 
 		DVD newDVD = new DVD(title, rating, runningTimeInteger);
-//		++numdvds;
-
-		System.out.println("THIS RAN!");
-
-//Version 1 - use CS301 shifts from end;
-
-		System.out.println("numdvds is: " + numdvds);
 
 		if (numdvds == 0) {
-			System.out.println("3 ran");
 			dvdArray[0] = newDVD;
 			++numdvds;
 			return;
 		}
 
 		for (int i = numdvds - 1; i >= 0; --i) {
-			System.out.println("4 ran");
 			// first array element's title >= than new title, we insert
 			if (title.compareTo(dvdArray[i].getTitle()) >= 0) { // Asks: Does 'title' come after alphabetically?
 				dvdArray[i + 1] = newDVD;
@@ -141,18 +129,15 @@ public class DVDCollection {
 
 		}
 
-//		++numdvds;
-		// dvdArray[0] = newDVD; <-- adding this here, i could remove it from else case,
-		// and the length==0 part too?
 	}
 
 	public void removeDVD(String title) {
 		boolean shiftElements = false;
-		int dvdCount = numdvds;
+		int dvdCount = numdvds; // In case numdvds changes and this effects a loop(not needed)
 
 		if (dvdCount == 0)
 			return;
-		
+
 		this.modified = true;
 
 		if (dvdCount == 1) {
@@ -163,10 +148,11 @@ public class DVDCollection {
 			}
 		}
 
+		// Once we find DVD to remove, next element on top of it and slide all remaining
+		// 1 over too
 		for (int i = 0; i < dvdCount - 1; ++i) {
 			if (title.equals(dvdArray[i].getTitle())) {
 				shiftElements = true;
-				--numdvds;
 			}
 
 			if (shiftElements) {
@@ -176,6 +162,7 @@ public class DVDCollection {
 
 		if (shiftElements || (title.equals(dvdArray[dvdCount - 1].getTitle()))) {
 			dvdArray[dvdCount - 1] = null;
+			--numdvds;
 		}
 	}
 
@@ -184,7 +171,7 @@ public class DVDCollection {
 
 		for (int i = 0; i < numdvds; ++i) {
 			if (rating.equals(dvdArray[i].getRating())) {
-				mergedString += dvdArray[i].toString();
+				mergedString += dvdArray[i].toString() + "min";
 			}
 		}
 
@@ -205,78 +192,80 @@ public class DVDCollection {
 //	public void addOrModifyDVD(String title, String rating, String runningTime) {
 	public void loadData(String filename) {
 		File file = new File(filename);
-		
 		this.sourceName = filename;
-
-		if (!file.exists()) {
+		
+		if (!file.exists())
 			return;
-		}
+
 
 		try {
 			Scanner sc = new Scanner(file);
-	
+
 			while (sc.hasNextLine()) {
 				String currLine = sc.nextLine();
 
-				System.out.println("currLine: " + currLine);
-				
 				if (!isValidInputLine(currLine)) {
 					sc.close();
 					return;
 				}
-				
+
 				String[] splitValues = currLine.split(",");
 				String title = splitValues[0];
 				String rating = splitValues[1];
 				String runningTime = splitValues[2];
-				
-				if (!isValidRating(rating) ||
-				    !isValidPositiveNumber(runningTime) ||
-				    title == null)  {
-						sc.close();
-						return;
+
+				if (!isValidRating(rating) || !isValidPositiveNumber(runningTime) || title == null) {
+					sc.close();
+					return;
 				}
-	
+
 				addOrModifyDVD(title, rating, runningTime);
-	
+
 			}
 			sc.close();
 
-		} catch (FileNotFoundException e) {
-			System.out.println("Error: File not found or inaccessible: " + filename);
+		} catch (Exception e) {
+			System.out.println("e");
 		}
 
-		
 	}
 
 	public void save() {
-		if (!this.modified) return;
-		
+		if (!this.modified)
+			return;
+
 		File file = new File(this.sourceName);
-		
+
 		try {
-			if (file.createNewFile()) {
+//			if (file.createNewFile()) {
+				file.createNewFile();
 				FileWriter myWriter = new FileWriter(this.sourceName);
-				myWriter.write(toString());
+//				myWriter.write(toString());
+
+				for (int i = 0; i < numdvds; ++i) {
+					myWriter.write(dvdArray[i].toString());
+					myWriter.write("\n");
+				}
+
 				myWriter.close();
 				this.modified = false;
 //				for (int i = 0; i < numdvds; ++i) {
 //					myWriter.write(dvdArray[i].getS);
 //				}
-			}
-		} catch(IOException e) {
-			e.printStackTrace();
+//			}
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
-		
+
 	}
 
 	// Additional private helper methods go here:
-	
+
 	static private boolean isValidInputLine(String input) {
 		if (!input.matches("^.+,.+,.+$")) {
 			return false;
 		}
-		
+
 		return true;
 	}
 
