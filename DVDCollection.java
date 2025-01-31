@@ -189,7 +189,6 @@ public class DVDCollection {
 		return totalRunningTime;
 	}
 
-//	public void addOrModifyDVD(String title, String rating, String runningTime) {
 	public void loadData(String filename) {
 		File file = new File(filename);
 		this.sourceName = filename;
