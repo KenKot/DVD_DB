@@ -41,7 +41,7 @@ public class DVDCollection {
 		String mergedString = "numdvds = " + this.numdvds + "\n" + "dvdArray.length = " + this.dvdArray.length + "\n";
 
 		for (int i = 0; i < this.numdvds; ++i) {
-			mergedString += "dvdArray[" + i + "] = " + dvdArray[i].toString() + "min";
+			mergedString += "dvdArray[" + i + "] = " + dvdArray[i].toString() + "min\n";
 		}
 
 		return mergedString;
@@ -174,6 +174,8 @@ public class DVDCollection {
 				mergedString += dvdArray[i].toString() + "min";
 			}
 		}
+		
+		if (mergedString.length() == 0) return "No DVDs found";
 
 		return mergedString;
 
@@ -224,7 +226,7 @@ public class DVDCollection {
 			sc.close();
 
 		} catch (Exception e) {
-			System.out.println("e");
+			System.out.println(e + " - loading error");
 		}
 
 	}
@@ -236,10 +238,8 @@ public class DVDCollection {
 		File file = new File(this.sourceName);
 
 		try {
-//			if (file.createNewFile()) {
 				file.createNewFile();
 				FileWriter myWriter = new FileWriter(this.sourceName);
-//				myWriter.write(toString());
 
 				for (int i = 0; i < numdvds; ++i) {
 					myWriter.write(dvdArray[i].toString());
@@ -248,10 +248,6 @@ public class DVDCollection {
 
 				myWriter.close();
 				this.modified = false;
-//				for (int i = 0; i < numdvds; ++i) {
-//					myWriter.write(dvdArray[i].getS);
-//				}
-//			}
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
